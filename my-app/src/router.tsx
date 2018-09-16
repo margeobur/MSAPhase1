@@ -5,23 +5,19 @@ import About from './components/About';
 import Header from './components/Header';
 import history from './history';
 
-class AppRouter extends React.Component<{}> {   
+interface RouterState {
+    channels: any;
+}
 
-    static getChannels = async() => {
-        const raw_chans = await fetch('/api/discord/getChannels');
-        const channels = await raw_chans.json();
-        console.log(channels);
-        return channels;
-    }
-// chans={AppRouter.getChannels()}/
+class AppRouter extends React.Component<{}, RouterState> {   
+
     public render() {
-        AppRouter.getChannels();
         return (
             <Router history={history}>
                 <div>
                     <Header />
                     <main>
-                        <Route exact={true} path="/" render={() => <App />} />
+                        <Route exact={true} path="/" component={App} />
                         <Route path="/About" component={About} />
                         <Redirect from='*' to='/' />
                     </main>

@@ -4,7 +4,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 
 const styles = (theme: any) => ({
   button: {
@@ -20,12 +19,11 @@ const styles = (theme: any) => ({
 interface InProps {
     classes: any;
     handleChannelSelect: any;
-    channels: any;
+    channels: Array<any>;
 }
 
 interface ThisState {
     chan: any;
-    open: boolean;
 }
 
 class ChannelSelector extends React.Component<InProps,ThisState> {
@@ -33,42 +31,49 @@ class ChannelSelector extends React.Component<InProps,ThisState> {
         super(props);
 
         this.state = {
-            chan: '',
-            open: false,
+            chan: ''
         }
 
+        console.log(typeof props.channels);
+
         this.handleChange = this.handleChange.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
     }
 
+  
   handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("blah");
+    console.log(e);
     this.setState({ chan: e.target.value });
-    this.props.handleChannelSelect(event);
+    this.props.handleChannelSelect(e.target.value);
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  static getElements = (channels: any) => {
+    if(!channels) {
+      return <div>no channels</div>;
+    }
+    
+    var forms = [];
 
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
+    for(let i=0;i<channels.length;i++) {
+      forms.push(
+        <MenuItem key={channels[i].id}
+                value={channels[i].id}>
+          {channels[i].name}
+        </MenuItem>
+      )
+    }
+    console.log(forms);
+    return forms;
+  }
 
   render() {
     const { classes } = this.props;
 
     return (
       <form autoComplete="off">
-        <Button className={classes.button} onClick={this.handleOpen}>
-            Select a Channel
-        </Button>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="ch-select">Channel</InputLabel>
           <Select
-            open={this.state.open}
-            onClose={this.handleClose}
-            onOpen={this.handleOpen}
             value={this.state.chan}
             onChange={this.handleChange}
             inputProps={{
@@ -76,13 +81,7 @@ class ChannelSelector extends React.Component<InProps,ThisState> {
               id: 'ch-select',
             }}
           >
-            {this.props.channels.map((channel: any) =>
-                <MenuItem key={channel.id}
-                        value={channel.id}>
-                    {channel.name}
-                </MenuItem>
-        
-            )}
+          {ChannelSelector.getElements(this.props.channels)}
           </Select>
         </FormControl>
       </form>

@@ -1,15 +1,38 @@
-import * as React from "react";
+import * as React from 'react';
+import { withStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
-const About = () => {
-    return (
-        <div className="centreText">
-            <h1>BeDisBot</h1>
-            <h2>This is my submission for the first assignment in MSA.</h2>
-            <p>It uses the Discord REST api. Normally one wouldn't reveal the bot authentication token -
-                bots aren't even supposed to be implemented in front-end code like this. However, I didn't
-                think it was in the scope of the assignment and it would have been costly to set up</p>
-        </div>
-    );
+const styles = (theme: Theme) => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+});
+
+interface AboutProps {
+    classes: {
+        root: string;
+    }
 }
 
-export default About;
+function About(props: AboutProps) {
+  const { classes } = props;
+
+  return (
+    <div>
+      <Paper className={classes.root} elevation={1}>
+        <Typography variant="headline" component="h3">
+          BeDisBot
+        </Typography>
+        <Typography component="p">
+            This is my submission for the first assignment in MSA.
+            It uses the Discord REST api.
+        </Typography>
+      </Paper>
+    </div>
+  );
+}
+
+export default withStyles(styles)(About);
