@@ -28,5 +28,5 @@
     "@types/react-dom": "^16.0.7",
     "typescript": "^3.0.3"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "https://marcBeDisBot.azurewebsites.net:5000"
 }

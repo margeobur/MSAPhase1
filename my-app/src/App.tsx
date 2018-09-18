@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './App.css';
 import Button from '@material-ui/core/Button';
 import ChannelSelector from './components/ChannelSelector';
+import Messages from './components/Messages';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
@@ -29,7 +29,7 @@ interface AppProps {
 }
 
 interface AppState {
-  messages: Array<any>;
+  messages: any;
   channels: any;
   error: boolean;
 }
@@ -39,7 +39,7 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      messages: [],
+      messages: null,
       channels: [],
       error: false
     };
@@ -101,7 +101,7 @@ class App extends React.Component<AppProps, AppState> {
           <Grid item xs={6}>
             <ChannelSelector handleChannelSelect={this.handleChannelSelect} channels={this.state.channels} />
           </Grid>
-          {this.state.messages.length && this.state.messages[0].author.username}
+          {this.state.messages && <Messages messages={this.state.messages} />}
           {this.state.error && <div>ERROR calling api</div>}
         </Grid>
       </div>

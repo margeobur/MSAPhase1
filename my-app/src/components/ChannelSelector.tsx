@@ -17,7 +17,10 @@ const styles = (theme: any) => ({
 });
 
 interface InProps {
-    classes: any;
+    classes: {
+      button: string,
+      formControl: string
+    };
     handleChannelSelect: any;
     channels: Array<any>;
 }

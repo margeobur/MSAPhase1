@@ -8,10 +8,10 @@ app.use(express.static(path.join(__dirname, '/my-app/public')));
 app.use('/api/discord', require('./api/discord'));
 
 app.get('*', (req,res) => {
-    res.redirect('http://localhost:3000/');
+    res.redirect('https://marcBeDisBot.azurewebsites.net:80/');
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port);
+const port = 5000;
+app.listen(5000);
 
 console.log('App is listening on port ' + port);
