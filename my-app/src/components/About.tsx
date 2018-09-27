@@ -50,8 +50,11 @@ function About(props: AboutProps) {
             server (which you can join <a href="https://discord.gg/e9FThFc">here</a>).
           </Typography>
           <Typography component="p">
-            This Web App utilises a small Express server that hides the bot's authentication token. The server offers api
-            endpoints that wrap Discord's api.
+            This Web App formerly utilised a small Express server that hid the bot's authentication token. The server offered api
+            endpoints that wrapped Discord's api. However, problems arose when I tried to containerise the Express server with the React App 
+            and run them at the same time. I got it to work locally, but it didn't work when I put it on Azure.
+
+            So, now the authentication token is embedded in the React app, because I had no other choice.
           </Typography>
         </Paper>
       </Grid>

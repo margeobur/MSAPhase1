@@ -6,6 +6,9 @@ import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 
+const GUILD_ID = "OMITTED";
+const BOT_TOKEN = "OMITTED";
+
 const styles = (theme: Theme) => createStyles({
   App: {
     padding: 40,
@@ -46,13 +49,26 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   handleClick = async (e: any) => {
-    const raw_chans = await fetch('/api/discord/getChannels');
-    const channels = await raw_chans.json();
+    let Error = false;
+    try {
+      const response = await fetch(`https://discordapp.com/api/v6/guilds/${GUILD_ID}/channels`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bot ${BOT_TOKEN}`,
+            'user-agent': 'DiscordBot (https://discordapp.com/developers/applications/486305247698878475/bots, 6)'
+          },
+        });
+      var channels = await response.json();
+    } catch (error) {
+      Error = true;
+    }
 
-    if(channels.ERROR) {
+    if (Error) {
       this.setState({
         error: true
       });
+      return;
     }
     var chans = [];
 
@@ -62,7 +78,6 @@ class App extends React.Component<AppProps, AppState> {
       }
     }
 
-    console.log("damn dan:" + chans);
     this.setState({
       channels: chans,
       error: false
@@ -70,14 +85,34 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   handleChannelSelect = async (value: any) => {
-    const raw_messages = await fetch(`/api/discord/getChannelMessages?channel=${value}`);
-    const l_messages = await raw_messages.json();
+    let Error = false;
 
-    console.log("damn dirty:");
-    console.log(l_messages);
+    try {
+      const response = await fetch(`https://discordapp.com/api/v6/channels/${value}/messages`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bot ${BOT_TOKEN}`,
+            'user-agent': 'DiscordBot (https://discordapp.com/developers/applications/486305247698878475/bots, 6)'
+          },
+        });
+      var messageList = await response.json();
+    } catch (error) {
+      Error = true;
+    }
+
+    if (Error) {
+      this.setState({
+        error: true
+      });
+      return;
+    }
+
     this.setState({
-      messages: l_messages
+      messages: messageList,
+      error: false
     });
+
   }
 
   public render() {
@@ -88,7 +123,7 @@ class App extends React.Component<AppProps, AppState> {
         <Grid container
           direction="column"
           justify="center"
-          alignItems="center" 
+          alignItems="center"
           spacing={16}>
           <Grid item xs={6}>
             <Typography variant="headline" component="h1">

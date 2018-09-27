@@ -11,5 +11,5 @@ servers, but I ran into many issues trying to implement that. After a lot of exp
 settled upon authenticating with my Bot and getting information about the dummy 
 server (which you can join [here](https://discord.gg/e9FThFc))
 
-<This Web App utilises a small Express server that hides the bot's authentication token. The server offers api
+This Web App utilises a small Express server that hides the bot's authentication token. The server offers api
 endpoints that wrap Discord's api.
